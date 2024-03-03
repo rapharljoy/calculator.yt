@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f4f4f4;
+        }
+
+        #calculator {
+            display: inline-block;
+            text-align: left;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input, button {
+            font-size: 18px;
+            margin: 5px;
+            padding: 10px;
+        }
+
+        button {
+            width: 50px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        input {
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+<div id="calculator">
+    <input type="text" id="display" readonly>
+    <br>
+    <button onclick="memoryClear()">MC</button>
+    <button onclick="memoryRead()">MR</button>
+    <button onclick="memoryAdd()">M+</button>
+    <button onclick="memorySubtract()">M-</button>
+    <button onclick="appendToDisplay('|')">|x|</button>
+    <button onclick="appendToDisplay('1/x')">1/x</button>
+    <button onclick="calculateLog('log10')">log10</button>
+    <button onclick="calculateLog('log')">log</button>
+    <button onclick="clearDisplay()">C</button>
+    <button onclick="backspace()">⌫</button>
+    <br>
+    <button onclick="appendToDisplay('7')">7</button>
+    <button onclick="appendToDisplay('8')">8</button>
+    <button onclick="appendToDisplay('9')">9</button>
+    <button onclick="appendToDisplay('/')">/</button>
+    <button onclick="appendToDisplay('^')">^</button>
+    <button onclick="calculateSquareRoot()">√x</button>
+    <button onclick="calculateCubeRoot()">³√x</button>
+    <button onclick="calculateConditional('>=')">>=</button>
+    <button onclick="calculateConditional('<=')"><=</button>
+    <br>
+    <button onclick="appendToDisplay('4')">4</button>
+    <button onclick="appendToDisplay('5')">5</button>
+    <button onclick="appendToDisplay('6')">6</button>
+    <button onclick="appendToDisplay('')"></button>
+    <button onclick="appendToDisplay('(')">(</button>
+    <button onclick="appendToDisplay(')')">)</button>
+    <button onclick="calculateFactorial()">!</button>
+    <button onclick="calculateConditional('>')">></button>
+    <button onclick="calculateConditional('<')"><</button>
+    <br>
+    <button onclick="appendToDisplay('1')">1</button>
+    <button onclick="appendToDisplay('2')">2</button>
+    <button onclick="appendToDisplay('3')">3</button>
+    <button onclick="appendToDisplay('-')">-</button>
+    <button onclick="appendToDisplay('.')">.</button>
+    <button onclick="appendToDisplay('π')">π</button>
+    <button onclick="appendToDisplay('e')">e</button>
+    <button onclick="calculateTrigFunction('sin')">sin</button>
+    <button onclick="calculateConditional('==')">==</button>
+    <button onclick="calculateConditional('!=')">!=</button>
+    <br>
+    <button onclick="appendToDisplay('0')">0</button>
+    <button onclick="calculateResult()">=</button>
+    <button onclick="appendToDisplay('+')">+</button>
+    <button onclick="calculatePercentage()">%</button>
+    <button onclick="calculateSquare()">x²</button>
+    <button onclick="calculateCube()">x³</button>
+    <button onclick="calculateTrigFunction('cos')">cos</button>
+    <button onclick="calculateTrigFunction('tan')">tan</button>
+    <br>
+    <button onclick="appendToDisplay('±')">±</button>
+    <button onclick="memorySave()">MS</button>
+    <button onclick="memoryRecall()">MRC</button>
+    <button onclick="memoryAdd()">M+</button>
+    <button onclick="memorySubtract()">M-</button>
+    <button onclick="calculateTrigFunction('cosh')">cosh</button>
+    <button onclick="calculateTrigFunction('sinh')">sinh</button>
+    <button onclick="calculateTrigFunction('tanh')">tanh</button>
+    <button onclick="appendToDisplay('Ans')">Ans</button>
+    <button onclick="appendToDisplay('c')">c</button>
+    <button onclick="calculateBitwise('&')">&</button>
+    <button onclick="calculateBitwise('|')">|</button>
+    <button onclick="calculateBitwise('^')">^</button>
+    <button onclick="calculateBitwise('')"></button>
+    <button onclick="calculateBitwise('>>')">>></button>
+    <button onclick="calculateBitwise('<<')">&#60;&#60;</button>
+</div>
+
+<script>
+    let memory = 0;
+    let ans = 0;
+
+    function appendToDisplay(value) {
+        document.getElementById('display').value += value;
+    }
+
+    function clearDisplay() {
+        document.getElementById('display').value = '';
+    }
+
+    function backspace() {
+        var currentDisplay = document.getElementById('display').value;
+        document.getElementById('display').value = currentDisplay.substring(0, currentDisplay.length - 1);
+    }
+
+    function calculateResult() {
+        try {
+            ans = eval(document.getElementById('display').value);
+            document.getElementById('display').value = ans;
+        } catch (error) {
+            document.getElementById('display').value = 'Error';
+        }
+    }
+
+    function calculatePercentage() {
+        try {
+            document.getElementById('display').value = eval(document.getElementById('display').value) / 100;
+        } catch (error) {
+            document.getElementById('display').value = 'Error';
+        }
+    }
+
+    function calculateSquare() {
+        try {
+            document.getElementById('display').value = Math.pow(eval(document.getElementById('display').value), 2);
+        } catch (error) {
+            document.getElementById('display').value = 'Error';
+        }
+    }
+
+    function calculateCube() {
+        try {
+            document.getElementById('display').value = Math.pow(eval(document.getElementById('display').value), 3);
+        } catch (error) {
+            document.getElementById('display').value = 'Error';
+        }
+    }
+
+    function calculateSquareRoot() {
+        try {
+            document.getElementById('display').value = Math.sqrt(eval(document
+                .getElementById('display').value));
+        }
+      catch (error) {
+            document.getElementById('display').value = 'Error';
+        }
+    
+    }
+    function calculateCubeRoot() {
+        try {
+            document.getElementById('display').value = Math.cbrt(eval(document.getElementById('display').value));
+        } catch (error) {
+            document.getElementById('display').value = 'Error';
+        }
+    }
+
+    function calculateFactorial() {
+        try {
+            const num = parseInt(document.getElementById('display').value);
+            if (num >= 0) {
+                let result = 1;
+                for (let i = 2; i <= num; i++) {
+                    result *= i;
+                }
+                document.getElementById('display').value = result;
+            } else {
+                document.getElementById('display').value = 'Invalid input';
+            }
+        } catch (error) {
+            document.getElementById('display').value = 'Error';
+        }
+    }
+
+    function calculateTrigFunction(func) {
+        try {
+            const angle = eval(document.getElementById('display').value);
+            switch (func) {
+                case 'sin':
+                    document.getElementById('display').value = Math.sin(angle).toFixed(6);
+                    break;
+                case 'cos':
+                    document.getElementById('display').value = Math.cos(angle).toFixed(6);
+                    break;
+                case 'tan':
+                    document.getElementById('display').value = Math.tan(angle).toFixed(6);
+                    break;
+                case 'sinh':
+                    document.getElementById('display').value = Math.sinh(angle).toFixed(6);
+                    break;
+                case 'cosh':
+                    document.getElementById('display').value = Math.cosh(angle).toFixed(6);
+                    break;
+                case 'tanh':
+                    document.getElementById('display').value = Math.tanh(angle).toFixed(6);
+                    break;
+                default:
+                    document.getElementById('display').value = 'Invalid function';
+            }
+        } catch (error) {
+            document.getElementById('display').value = 'Error';
+        }
+    }
+
+    function calculateLog(type) {
+        try {
+            const num = eval(document.getElementById('display').value);
+            if (type === 'log10') {
+                document.getElementById('display').value = Math.log10(num);
+            } else if (type === 'log') {
+                document.getElementById('display').value = Math.log(num);
+            } else {
+                document.getElementById('display').value = 'Invalid log type';
+            }
+        } catch (error) {
+            document.getElementById('display').value = 'Error';
+        }
+    }
+
+    function calculateConditional(operator) {
+        try {
+            const expression = document.getElementById('display').value;
+            const parts = expression.split(operator);
+            const result = eval(expression);
+
+            if (operator === '==') {
+                document.getElementById('display').value = result == true ? 'True' : 'False';
+            } else if (operator === '!=') {
+                document.getElementById('display').value = result != true ? 'True' :'False';
+            } else if (operator === '>=') {
+                document.getElementById('display').value = result >= true ? 'True' : 'False';
+            } else if (operator === '<=') {
+                document.getElementById('display').value = result <= true ? 'True' : 'False';
+            } else if (operator === '>') {
+                document.getElementById('display').value = result > true ? 'True' : 'False';
+            } else if (operator === '<') {
+                document.getElementById('display').value = result < true ? 'True' : 'False';
+            }
+        } catch (error) {
+            document.getElementById('display').value = 'Error';
+        }
+    }
+
+    function calculateBitwise(operator) {
+        try {
+            const expression = document.getElementById('display').value;
+            document.getElementById('display').value = eval(expression + operator);
+        } catch (error) {
+            document.getElementById('display').value = 'Error';
+        }
+    }
+
+    function memorySave() {
+        try {
+            memory = eval(document.getElementById('display').value);
+        } catch (error) {
+            document.getElementById('display').value = 'Error';
+        }
+    }
+
+    function memoryClear() {
+        memory = 0;
+    }
+
+    function memoryRead() {
+        document.getElementById('display').value = memory;
+    }
+
+    function memoryAdd() {
+        try {
+            memory += eval(document.getElementById('display').value);
+        } catch (error) {
+            document.getElementById('display').value = 'Error';
+        }
+    }
+
+    function memorySubtract() {
+        try {
+            memory -= eval(document.getElementById('display').value);
+        } catch (error) {
+            document.getElementById('display').value = 'Error';
+        }
+    }
+</script>
+
+</body>
+</html>
